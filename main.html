@@ -1,0 +1,609 @@
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+	
+	<link rel="stylesheet" href="Leaflet/leaflet.css" />
+   
+<style>
+   body {
+   	color : #45512C;
+	background-color: #8AA259;
+	padding: 0;
+	width: 100vw;
+		height: 27vw;
+		padding: 0px;
+	}
+	
+	.bq{
+		position: fixed;
+			top: 50px;
+			left: 5%;
+			width: 90vw;
+			
+			height: 90vw;
+			font: 15px  "Arial", sans-serif;
+			
+	}
+	
+	.desk{
+		position: absolute;
+			top: 10px;
+			left: 0px;
+			width: 90vw;
+			padding: 1vw;
+			background-color: rgba(255, 255, 255, 1);
+			font: 15px  "Arial", sans-serif;
+	}
+	
+	.inf{
+		position: fixed;
+		position: fixed;
+		display: block;
+		top: 0px;
+		left: 45%;
+		width: 30px;
+		
+		border-radius: 50%;
+		border: 3px solid red;
+		color: ivory;
+		background-color: rgba(0, 0, 0, 0.3);
+		text-alighn: center;
+		}
+	
+	.cob{
+		user-select: none;
+		position: fixed;
+		display: block;
+		top: 10px;
+		left: 45%;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		border: 3px solid red;
+		color: red;
+		background-color: rgba(0, 0, 0, 0.3);
+		text-alighn: center;
+		font-size: 20px
+		
+		}
+		
+		.utx{
+			position: fixed;
+			top: 50px;
+			left: 20%;
+			width: 50%;
+			color: red;
+		}
+	.map {
+		position: fixed;
+		top: 0px;
+		left:0px;
+		box-shadow: 1px 1px 10px 3px #B9DA78;//#D9FF8C;//#A5CA7F;//rgba(0, 0, 255, .2);
+		border: thin solid #8AA259;
+		width: 100vw;
+		height: 100vh;
+		}
+		
+	.menu{
+		position: fixed;
+			top: 100px;
+			left: 20%;
+			width: 60%;
+			font: 20px  "Lucida", sans-serif;
+			
+			
+	}
+	
+	.mitem{
+		display: block;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		background-color: rgba(255, 255, 255, 0.2);
+		text-shadow: white 2px 5px;
+		user-select: none;
+		margin-bottom: 4vh;
+		padding: 1vh;
+		color: #274E00;
+		box-shadow: 1px 1px 10px 3px silver;//#D9FF8C;//#A5CA7F;//rgba(0, 0, 255, .2);
+		border-radius: 15%;
+	}
+	
+	.non{
+		display: none;
+		
+	}
+	
+	.blanck{
+		position: fixed;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		top: 20px;
+		left: 20px;
+		height: 90%;
+		width: 90%;
+	}
+	
+		
+	@media screen and (orientation: portrait) {
+		
+		.slider {
+		position: fixed;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		top: 70vw;
+		left: 38vw;
+		height: 98vw;
+		width: 28vw;
+		transform: rotate(270deg);
+		}
+		
+		
+		.e{
+		position: static;
+		display: block;
+		border: thin solid red;
+		border-radius: 1vh;
+		width: 70px;
+		height: 70px;
+		margin-bottom: 1vh;
+		background-color: rgba(0, 0, 0, 0.2);
+		transform: rotate(90deg);
+		}
+		
+		}
+@media screen and (orientation: landscape) {
+
+		.slider {
+		position: fixed;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		top: 0px;
+		right: 2vh;
+		height: 100%;
+		width: 27vh;
+		}
+		
+			
+	.e{
+		position: static;
+		display: block;
+		border: thin solid red;
+		border-radius: 1vh;
+		width: 70px;
+		height: 70px;
+		margin-bottom: 1vh;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+}
+</style>
+   
+   
+   <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src=Leaflet/leaflet.js></script>
+</script>
+   
+</head>
+
+<body>
+	
+	 <div id="mapid" class = 'map '></div>
+	
+	 <div id = "overview"  class = "non"> 
+		<h2><b>описание</b></h2>
+       <br>Приложение ориентировано на предоставление информационной поддержки посетителям Ботанического Сада . 
+
+представляет cобой вариант электронного гида на основе  интерактивной карты территории ботанического сада и тематического рубрикатора. По выбору посетителя ему предоставляется информация о растениях с указанием их местарасположения на карте. Подбор статей может варьироват
+ с возможностью получения аннотации по каждрму элементу карты. Количество и расположение аннотированых эленментов произвольно изменяемо в зависимости от текущей задачи.'
+			+'<br>Программа имеет два основновных представления (режима): "просмотр"  и "редактирование" Примеры находятся ниже.  
+			<h2>TO DO</h2>
+			версия на англиском
+			<br> форма для отзывов и коментариев.
+		 с возможностью получения аннотации по каждрму элементу карты. Количество и расположение аннотированых эленментов произвольно изменяемо в зависимости от текущей задачи.'
+	</div>
+	 
+	
+	
+<script>
+var map = { };
+
+function main (){
+	alert('приматывание слайд4ра кткаждому из пунктов меню')
+	empty_map()
+	presentation ();
+}// end function main (){
+	
+
+function add_to_slider (el){
+	let slider = {}
+	if (document.getElementById('slider')){
+		slider = document.getElementById('slider');
+	}else{
+		slider = document.createElement("div");
+		slider.id = "slider"
+		slider.className = "slider"
+		document.body.append(slider);
+	}// end if (document.getElementById('tape'){
+	let slide = document.createElement("div");
+	slide.className = "e";
+	slider.append(slide);
+	
+		slide.append(el);
+	
+}// function add_to_slider (){
+
+
+
+
+function copy_lat_lng(){
+	children_off('menu')
+	
+	let btn = document.createElement("div");
+	btn.id = 'lat'
+	btn.innerHTML = "<b>lat<br>lng</b>";
+	btn.style.color =  "#FF8000"
+	btn.style.textAlign = "center";
+	btn.style.fontSize = 28+'px'
+	add_to_slider (btn)
+	
+	btn.onclick = function(){
+		// слайдер гасится, 
+		children_off('slider');
+		//включется кнопка отмены
+		centr_off_btn(function(){
+			document.getElementById('cob').remove();
+			document.getElementById('hlp').remove();
+			slider_set()
+			pointerOff ()
+		});// end centr_off_btn(function(){
+		
+		help ('Эта функция выводит на экран широту и долготу из под указателя в центре экрана при клике по нему.');
+		
+		pointerOn ();
+		document.getElementById("pointer").onclick = function (){
+			latlng = map.getCenter();
+			utiltxt(latlng);
+			marck_on_map();
+		}// end document.getElementById("pointer").onclick = function (){
+	}// end btn.onclick = function(){
+}// end function  copy_lat_lng(){
+	
+function centr_off_btn(fn = function(){alert('дейсвие не определено')}){
+	let btn = document.createElement("div");
+	btn.id = 'cob'
+	btn.innerHTML ='<big><b>&#9932</b></big>'
+	btn.className = "cob";
+	btn.style.textAlign = "center";
+	btn.onclick = fn
+	document.body.append(btn)
+}// function centr_off_btn(){
+
+
+function children_off(id){
+	if(document.getElementById(id)){
+		let tape = document.getElementById(id);
+		while (tape.firstChild) {
+			tape.removeChild(tape.firstChild);
+		}// end while (tape.firstChild) {
+	}// end if(document.getElementById(id)){
+}// end function children_off(){
+	
+	
+	
+function div4slider(id,inner,fn = function(){alert('назначение не определено')}){
+	let btn = document.createElement("div");
+	btn.id = id
+	btn.innerHTML = inner;
+	btn.onclick=fn
+	add_to_slider (btn)
+}// end function div4slider(id,inner,fn){
+	
+	
+	
+function edit_slider_set(){
+	intro () ;
+	copy_lat_lng()
+}// end function slider_set(){
+	
+
+function empty_map() {
+	map = L.map('mapid').setView([59.970, 30.325], 15);
+	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    maxZoom: 30
+	}).addTo(map)
+	map.fitBounds([[59.972484, 30.325], [59.967094, 30.320]]);
+}// end function empty_map() {
+	
+	
+	
+function help (txt){
+		let hlp = document.createElement("div");
+		hlp.id = 'hlp'
+		hlp.className = "cob";
+		hlp.style.left = 10+"%";
+		hlp.style.color = "gold"
+		hlp.style.textAlign = "center";
+		hlp.style.border= "3px solid gold"; 
+		hlp.innerHTML ='<big><b>?</b></big>'
+		hlp.onclick = function(){
+			hlp.style.top = 50+'px'
+			hlp.style.width = 80 + '%'
+			hlp.style.height = 70+'%'
+			hlp.style.color = 'ivory'
+			hlp.style.borderRadius = 5+'%'
+			hlp.innerHTML = '(закрывается при нажатии)<br>' + txt;
+			hlp.onclick = function(){
+				hlp.remove()
+				help (txt);
+			}//end hlp.onclick = function(){ in hlp.onclick = function(){
+		}//end hlp.onclick = function(){
+		document.body.append(hlp)
+}//end function help (){
+
+
+
+function intro () {
+	let btn = document.createElement("div");
+	btn.id = 'intro'
+	btn.innerHTML = "<b>intro</b>";
+	btn.style.color =  "navy"
+	btn.style.textAlign = "center";
+	btn.style.fontSize = 28+'px'
+	add_to_slider (btn)
+	btn.onclick = function ( ){
+		let menu;
+		if (document.getElementById('edit')){
+			menu = document.getElementById('menu');
+			menu.classList.toggle("menu")
+			menu.classList.toggle("bq")
+			document.getElementById('edit').innerHTML = 'test';
+		}else{alert ('что-то пошло не так с меню')}// end if (document.getElementById('menu')){
+	}// end btn.onclick = function{
+}// end function intro () {
+
+
+
+
+
+function marck_on_map () {
+		let point = L.circle(map.getCenter(), {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5,
+			radius: 0.5
+		}).addTo(map);// end var circle = L.circle([0, -0], {
+}// end function marck_on_map () {
+		
+		
+		
+function menu_btn (id, txt){
+	 document.getElementById('menu')
+	let pres = document.createElement("div");
+	pres.id = id
+	pres.innerHTML =txt
+	pres.className = "mitem";
+	pres.style.textAlign = "center";
+	 document.getElementById('menu').append(pres)
+}// end function menu_btn (id, txt){
+
+
+
+
+function menu_btn_fn( id , txt , fn ){
+	menu_btn (id, txt )
+	document.getElementById(id).onclick = fn
+}// end function menu_btn_fn( id , txt , fn ){
+
+
+
+function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+}// end function onMapClick(e) {
+
+
+
+function presentation (){
+	let menu = document.createElement("div");
+	menu.id = 'menu'
+	menu.className = "menu";
+	menu.style.textAlign = "center";
+	document.body.append(menu)
+	
+	menu_btn_fn ('park', '<b>парк</b>', function (){
+		
+		children_off('menu');
+		menu_btn_fn ('lock', '<b>локации парка</b>', function (){
+			children_off('menu');
+			menu_btn_fn ('alp', '<b>aльпийские горки</b>', function (){
+				children_off('menu');
+				map.fitBounds([
+					[59.969946, 30.324292],
+				    [59.969068, 30.323232]
+				]);// end map.fitBounds([
+			})// end menu_btn_fn ('alp', '<b>aльпийские горки</b>', function (){
+			menu_btn_fn ('flo', '<b>сад непрерывного цветения>', function (){alert('пока не готово')})
+			menu_btn_fn ('ros', '<b>розарий/b>', function (){
+				children_off('menu');
+				map.fitBounds([
+					[59.971335, 30.325835],
+				    [59.971001, 30.325243]
+				]);// end map.fitBounds([
+			})//end menu_btn_fn ('ros', '<b>розарий/b>', function (){
+			menu_btn_fn ('jp', '<b>японский сад/b>', function (){
+				children_off('menu');
+				map.fitBounds([
+					[59.971229, 30.326801],
+				    [59.970709, 30.325433]
+				]);// end map.fitBounds([
+			})// end menu_btn_fn ('jp', '<b>японский сад/b>', function (){
+		})//end menu_btn_fn ('lock', '<b>локации парка</b>', function (){alert('пока не готово')
+		
+		menu_btn_fn ('rout', '<b>маршруты</b>', function (){alert('пока не готово')
+			menu_btn_fn ('rb', '<b>рябины</b>', function (){alert('пока не готово')})
+		})//end menu_btn_fn ('rout', '<b>маршруты</b>', function (){alert('пока не готово')
+		
+		menu_btn_fn ('qwest', '<b>квест</b>', function (){alert('пока не готово')})
+		menu_btn_fn ('serch', '<b>поиск по названию</b>', function (){alert('пока не готово')})
+		
+		centr_off_btn(function () {
+			to_start_menu ()
+		});// end centr_off_btn(function () {
+	})// end  menu_btn_fn ('park', '<b>парк</b>', function (){
+	
+	menu_btn_fn ('orng', '<b><b>оранжереи</b></b>', function (){
+		centr_off_btn(function () {
+			marker.remove()
+			to_start_menu ()
+		});// end centr_off_btn(function () {
+			
+		map.fitBounds([
+		    [59.97163, 30.324972],
+		    [59.969583, 30.32224]
+		]);// end map.fitBounds([
+		let marker = L.marker([59.970874, 30.325006]).addTo(map);
+		marker.bindPopup("начало экскурсий").openPopup();
+		children_off('menu');
+		
+		
+		menu_btn_fn ('trop', '<b>тропический маршрут</b>', function (){
+		
+			children_off('menu');
+			
+			menu_btn_fn ('dule', '<b>расписание </b>', function (){alert("нет данных")})
+			menu_btn_fn ('ticket', '<b> приобрести билет</b>' , function (){alert('варианты:')})
+			menu_btn_fn ('xxxxx', 'тут нвдо пускать слайдер с фотками', function (){alert("нет данных")})
+		})// end menu_btn_fn ('trop', '<b>тропический маршрут</b>', function (){
+			
+		menu_btn_fn ('subt', '<b>cубтропический маршрут</b>', function (){
+			children_off('menu');
+			menu_btn_fn ('dule', '<b>расписание экскурсий</b>', function (){alert("нет данных")})
+			menu_btn_fn ('ticket', '<b> приобрести билет</b>' , function (){alert('варианты:')})
+		})// end menu_btn_fn ('subt', '<b>cубтропический маршрут</b>', function (){
+		menu_btn_fn ('water', '<b>водный маршрут</b>', function (){
+			children_off('menu');
+			menu_btn_fn ('dule', '<b>расписание экскурсий</b>', function (){alert("нет данных")})
+			menu_btn_fn ('ticket', '<b> приобрести билет</b>' , function (){alert('варианты:')})
+		})// end menu_btn_fn ('water', '<b>водный маршрут</b>', function (){
+		menu_btn_fn ('else', '<b>дополнительно</b>', function (){
+			children_off('menu');
+			menu_btn_fn ('foto', '<b> фотосессии?</b>' ,function (){alert('варианты:')})
+			menu_btn_fn ('what', '<b> что ещё?</b>' ,function (){alert('варианты:')})
+		})// end menu_btn_fn ('else', '<b>дополнительно</b>', function (){
+			
+	})// end menu_btn_fn ('orng', '<b><b>оранжереи</b></b>', function (){
+		
+	menu_btn_fn ('museum', '<b>музей</b>', function (){
+		map.fitBounds([
+		    [59.972163, 30.324613],
+		    [59.969538, 30.321978]
+		]);
+		let marker = L.marker([59.971174, 30.322942]).addTo(map);
+		marker.bindPopup("МУЗЕЙ").openPopup();
+		
+		children_off('menu');
+		menu_btn_fn ('nod', '<b>нет данных</b>', function (){ })
+		
+		centr_off_btn(function () {
+			marker.remove()
+			to_start_menu ()
+			});
+	})// end menu_btn_fn ('museum', '<b>музей</b>', function (){
+			
+	menu_btn_fn ('edit', '<b>редактирование</b>', function (){
+	
+	/*
+		children_off('menu');
+		menu_btn_fn ('cng', '<b>изменить</b>', function (){
+			alert('пока не готово')
+		})// end menu_btn_fn ('cng', '<b>изменить</b>', function (){
+		menu_btn_fn ('add', '<b>добавить</b>', function (){
+			alert('пока не готово')
+		})// end menu_btn_fn ('add', '<b>добавить</b>', function (){
+		menu_btn_fn ('rem', '<b>удалить</b>', function (){
+		alert('пока не готово')
+		})// end menu_btn_fn ('add', '<b>добавить</b>', function (){
+		*/
+		
+		centr_off_btn(function (){
+			to_start_menu();
+			slider_off()
+			
+		})// end centr_off_btn(function (){
+		
+		edit_slider_set();
+		
+	})// end menu_btn_fn ('edit', '<b>редактирование</b>', function (){
+	
+}//  end function presentation (){
+
+/*
+document.getElementById("MyElement").classList.add('MyClass');
+
+document.getElementById("MyElement").classList.remove('MyClass');
+
+if ( document.getElementById("MyElement").classList.contains('MyClass') )
+
+document.getElementById("MyElement").classList.toggle('MyClass');
+*/
+
+
+
+function pointerOn (){ if(!document.getElementById("pointer")){
+		let pointer = document.createElement("div");
+		pointer.id = "pointer"
+		pointer.style.zIndex = 1002
+		pointer.style.position = 'fixed'
+		pointer.style.top = ((document.getElementById("mapid").offsetHeight/2) - 20)+"px";
+		pointer.style.left = ((document.getElementById("mapid").offsetWidth/2) -20 )+"px"
+		pointer.innerHTML= '<svg height="40" width="40"><path d= " M 20 2 V 17 M 20 20 V 38 M 2 20 H 17 M 23 20 H 38"  fill="transparent" stroke="black" stroke-width="1"/> <circle cx="20" cy="20" r="23" stroke="red" fill="transparent" stroke-width="2"/> </svg>' ;//'<svg height="60" width="60"><path d= " M 32 32 L 55 57 L 53 58 L 32 32 M 28 32 L 5 57 L 8 58 L 28 32"  fill="transparent" stroke="red" stroke-width="2"  stroke-linecap="round"/> <path d=" M 15 58 L 45 58 " stroke-width="1" stroke="red"/></svg> ' ;
+		document.body.append(pointer);
+	}
+}// end function pointerOn (){
+	
+	
+	
+function pointerOff ( ) {if(document.getElementById("pointer")){document.getElementById("pointer").remove()}
+}// end function pointerOff ()
+
+
+
+function slider_off ( ) {if( document.getElementById('slider')){document.getElementById('slider').remove();}else{alert ('slider_off не на месте')}// endif( document.getElementById('slider')){
+}// end  function slider_off(){
+	
+	
+	
+function to_start_menu ( ){
+	map.fitBounds([
+	    [59.972484, 30.325],
+	    [59.967094, 30.320]
+	]);
+	
+	document.getElementById('cob').remove();
+	
+	document.getElementById('menu').remove();
+	presentation ();
+	
+}// end function to_start_menu ( ){
+	
+	
+	
+function utiltxt(txt){
+	let utx, mes;
+	if (!document.getElementById('utx')){
+		utx = document.createElement("div");
+		utx.id = 'utx'
+		utx.className = "utx";
+		utx.innerHTML = "";
+		document.body.append(utx);
+	}else{
+		utx = document.getElementById('utx');
+	}// end if (!document.getElementById('utx')){
+		
+		utx.innerHTML = utx.innerHTML + '<br>'+txt;
+}// end function utiltxt(txt){
+	
+
+document.addEventListener("DOMContentLoaded", main);
+</script>
+	
+</body></html>
