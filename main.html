@@ -189,18 +189,6 @@
 	
 	 <div id="mapid" class = 'map '></div>
 	
-	 <div id = "overview"  class = "non"> 
-		<h2><b>описание</b></h2>
-       <br>Приложение ориентировано на предоставление информационной поддержки посетителям Ботанического Сада . 
-
-представляет cобой вариант электронного гида на основе  интерактивной карты территории ботанического сада и тематического рубрикатора. По выбору посетителя ему предоставляется информация о растениях с указанием их местарасположения на карте. Подбор статей может варьироват
- с возможностью получения аннотации по каждрму элементу карты. Количество и расположение аннотированых эленментов произвольно изменяемо в зависимости от текущей задачи.'
-			+'<br>Программа имеет два основновных представления (режима): "просмотр"  и "редактирование" Примеры находятся ниже.  
-			<h2>TO DO</h2>
-			версия на англиском
-			<br> форма для отзывов и коментариев.
-		 с возможностью получения аннотации по каждрму элементу карты. Количество и расположение аннотированых эленментов произвольно изменяемо в зависимости от текущей задачи.'
-	</div>
 	 
 	
 	
@@ -208,7 +196,6 @@
 var map = { };
 
 function main (){
-	alert('приматывание слайд4ра кткаждому из пунктов меню')
 	empty_map()
 	presentation ();
 }// end function main (){
@@ -230,7 +217,7 @@ function add_to_slider (el){
 	
 		slide.append(el);
 	
-}// function add_to_slider (){
+}// end function add_to_slider (){
 
 
 
@@ -276,7 +263,7 @@ function centr_off_btn(fn = function(){alert('дейсвие не определ
 	btn.style.textAlign = "center";
 	btn.onclick = fn
 	document.body.append(btn)
-}// function centr_off_btn(){
+}// end function centr_off_btn(){
 
 
 function children_off(id){
@@ -471,7 +458,7 @@ function presentation (){
 			
 			menu_btn_fn ('dule', '<b>расписание </b>', function (){alert("нет данных")})
 			menu_btn_fn ('ticket', '<b> приобрести билет</b>' , function (){alert('варианты:')})
-			menu_btn_fn ('xxxxx', 'тут нвдо пускать слайдер с фотками', function (){alert("нет данных")})
+			menu_btn_fn ('xxxxx', 'тут надо пускать слайдер с фотками', function (){alert("нет данных")})
 		})// end menu_btn_fn ('trop', '<b>тропический маршрут</b>', function (){
 			
 		menu_btn_fn ('subt', '<b>cубтропический маршрут</b>', function (){
@@ -536,15 +523,7 @@ function presentation (){
 	
 }//  end function presentation (){
 
-/*
-document.getElementById("MyElement").classList.add('MyClass');
 
-document.getElementById("MyElement").classList.remove('MyClass');
-
-if ( document.getElementById("MyElement").classList.contains('MyClass') )
-
-document.getElementById("MyElement").classList.toggle('MyClass');
-*/
 
 
 
